@@ -3,33 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class KddiWebhookController extends Controller
 {
-    public function rcs(Request $request): JsonResponse
+    public function rcs(Request $request)
     {
-        $payload = $request->all();
-
-        \Log::info('KDDI RCS Webhook', [
-            'payload' => $payload,
+        DB::table('kddi_webhook_events')->insert([
+            'channel' => 'rcs',
+            'event_type' => null,
+            'message_id' => $request->input('message_id'),
+            'payload' => $request->getContent(),
+            'received_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        return response()->json([
-            'status' => 'ok',
-        ], 200);
+        return response()->json(['status' => 'ok']);
     }
 
-    public function plusMessage(Request $request): JsonResponse
+    public function plus_message(Request $request)
     {
-        $payload = $request->all();
-
-        \Log::info('KDDI +Message Webhook', [
-            'payload' => $payload,
+        DB::table('kddi_webhook_events')->insert([
+            'channel' => 'plus_message',
+            'event_type' => null,
+            'message_id' => $request->input('message_id'),
+            'payload' => $request->getContent(),
+            'received_at' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        return response()->json([
-            'status' => 'ok',
-        ], 200);
+        return response()->json(['status' => 'ok']);
     }
 }

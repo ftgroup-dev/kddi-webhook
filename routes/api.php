@@ -9,4 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/webhook/kddi/rcs', [KddiWebhookController::class, 'rcs']);
-Route::post('/webhook/kddi/plus-message', [KddiWebhookController::class, 'plusMessage']);
+Route::post('/webhook/kddi/plus-message', [KddiWebhookController::class, 'plus_message']);
